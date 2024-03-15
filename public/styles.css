@@ -1,0 +1,75 @@
+/*Header*/
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: white;
+    background-color: red;
+}
+.nav{
+    --bs-nav-link-color: white;
+}
+
+/*Home*/
+.title{
+    font-weight: bold;
+    font-size: 4rem;
+}
+.t1{
+    color: rgb(215, 50, 50);
+}
+.lead{
+    font-size: 1.5rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #FF0000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+.title{
+    padding-bottom: 0px !important;
+}
+.search-bar{
+    padding-bottom: 2rem;
+}
+/*Upcoming movies*/
+.upcom-movie-title,.news-title{
+    text-align: center;
+}
+.upcom-movies,.trend-trailers{
+    margin-top: 1rem;
+}
+.movie-poster, .news-thumbnail{
+    width: 210px;
+    height: 260px;
+}
+.form-select-indicator-color{
+    color: red;
+}
+.filters{
+    width: 200px;
+}
+.submit-btn{
+    text-align: end;
+    margin-right: 1.5rem;
+}
+
+/*Trending Trailer*/
+.trailer-play,.news-read{
+    margin-top:2rem;
+    max-width: 9rem;
+}
+
+/*News*/
+ .news-read{
+    padding: 0px;
+ }
+ .news-thumbnail{
+    width: 250px;
+    height: 300px;
+    align-self: center;
+    padding-right: 1rem;
+}
+/*Footer*/
+.clear{
+    max-height: 80px;
+}
+.footer{
+    max-height: 70px;
+}

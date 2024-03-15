@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="public/styles.css">
+    <title>About</title>
+</head>
+<body>
+    <%currentpage='about'%>
+    <%- include("partials/header.ejs")%>
+    
+
+    <div class="container my-5">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+          <img src="public/camera-reels.svg" alt="logo" class="mt-4 mb-3" width="100" height="100">
+          <h1 class="fs-8 upcom-movie-title"><strong><span class="t1">The</span> Backstory</strong></h1>
+          <p class="col-lg-8 mx-auto fs-5 text-muted">
+            Heyyy!!
+            Welcome to Movie Matrix, your ultimate destination for all things movies on OTT platforms! We're dedicated to keeping you informed about the latest releases, trailers, and industry.
+            Our mission is simple: to provide movie enthusiasts with comprehensive information to enhance their viewing experience. Whether you're searching for the perfect film to watch tonight or staying updated on upcoming releases, we've got you covered.
+            Explore our curated listings of movies available on various OTT platforms, discover exclusive trailers, and stay informed with the latest film news and updates. With [Your Website Name], you'll never miss a beat in the world of cinema.
+            Connect with us on social media and join our community of movie lovers. Have questions or suggestions? Reach out to us – we'd love to hear from you!
+            Start exploring and dive into the world of movies with Movie Matrix today.
+          </p>
+        </div>
+    </div>
+
+    <%- include("partials/header.ejs")%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
