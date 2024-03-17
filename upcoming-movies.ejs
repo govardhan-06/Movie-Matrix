@@ -12,7 +12,7 @@
     <%- include("partials/header.ejs")%>
     <h1 class="fs-8 upcom-movie-title"><strong><span class="t1">Upcoming</span> releases</strong></h1>
     <div class="container">
-        <form action="<%#Post the preferences to backend%>" method="POST">
+        <form action="/upcom-search" method="POST">
         <div class="form-floating mb-4 mt-4">
           <input type="text" class="form-control" id="floatingInput" placeholder="Movie name" name="search">
           <label for="floatingInput">Movie Name</label>
@@ -20,84 +20,70 @@
 
         <div class="container d-flex justify-content-evenly">
           <div class="form-floating filters f1">
-              <select class="form-select" name="start_year" id="floatingSelect" aria-label="Floating label select example">
-                <option selected>From</option>
-                <%for(var i=1970;i<=2021;i++){%>
+              <select class="form-select" name="year" id="floatingSelect" aria-label="Floating label select example">
+                <option selected></option>
+                <%const d=new Date();%>
+                <%var year=d.getFullYear();%>
+                <%for(var i=year ;i<=year+1;i++){%>
                   <option value="<%=i%>"> <%=i%> </option>
                 <%}%>
               </select>
               <label for="floatingSelect">Year</label>
           </div>
           <div class="form-floating filters f2">
-              <select class="form-select" id="floatingSelect" name="end_year" aria-label="Floating label select example">
-                <option selected>Till</option>
-                <%for(var i=1970;i<=2021;i++){%>
-                  <option value="<%=i%>"> <%=i%> </option>
+              <select class="form-select" id="floatingSelect" name="month" aria-label="Floating label select example">
+                <option selected></option>
+                <%var month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']%>
+                <%for(var i=0;i<=11;i++){%>
+                  <option value="<%=month[i]%>"> <%=month[i]%> </option>
                 <%}%>
               </select>
-              <label for="floatingSelect">Year</label>
-          </div>
-          <div class="form-floating filters f3">
-              <%var genre=["Action", "Adult", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family",
-                "Fantasy", "Game-Show", "History", "Horror", "Music", "Musical", "Mystery", "News", "Reality-TV", "Romance",
-                "Sci-Fi", "Short", "Sport", "Talk-Show", "Thriller", "War", "Western"]%>
-              <select class="form-select" id="floatingSelect" name="genre" aria-label="Floating label select example">
-                <option selected>Genre</option>
-                <%for(var i=0;i<=genre.length;i++){%>
-                  <option value="<%=genre[i]%>"> <%=genre[i]%> </option>
-                <%}%>
-              </select>
-              <label for="floatingSelect">What genre?</label>
+              <label for="floatingSelect">Month</label>
           </div>
           <div class="form-floating filters f4">
-              <select class="form-select" id="floatingSelect" name="min_imdb" aria-label="Floating label select example">
-                <option selected>Imdb rating</option>
-                <%for(var i=1;i<=10;i++){%>
+              <select class="form-select" id="floatingSelect" name="day" aria-label="Floating label select example">
+                <option selected></option>
+                <%for(var i=1;i<=31;i++){%>
                   <option value="<%=i%>"> <%=i%> </option>
                 <%}%>
               </select>
-              <label for="floatingSelect">Min.</label>
+              <label for="floatingSelect">Day</label>
           </div>
-          <div class="form-floating filters f5">
-              <select class="form-select" id="floatingSelect" name="max_imdb" aria-label="Floating label select example">
-                <option selected>Imdb rating</option>
-                <%for(var i=1;i<=10;i++){%>
-                  <option value="<%=i%>"> <%=i%> </option>
-                <%}%>
-              </select>
-              <label for="floatingSelect">Max.</label>
-          </div>
-          <div class="form-floating filters f6">
-              <select class="form-select" id="floatingSelect" name="language" aria-label="Floating label select example">
-                <option selected>Language</option>
-                <%["Mandarin", "English", "Hindi", "Spanish", "French", "Arabic", "Bengali", "Russian", "Portuguese", "Urdu"]%>
-                <%for(var i=1;i<=10;i++){%>
-                  <option value="<%=i%>"> <%=i%> </option>
-                <%}%>
-              </select>
-              <label for="floatingSelect">Min.</label>
-          </div>
+
+          
         </div>
         <div class="submit-btn"><button type="submit" class="btn btn-danger">Search</button></div>
     </form>
     </div>
 
-    <div class="container upcom-movies">
-    <%for(var i=0;i<num;i++){%> <%#number of movies%>
-    <div class="col">
+    <%if(locals.content){%>
+      <%if(message==0){%>
+      <div class="container upcom-movies">
+      <%for(var i=0;i<content.length;i++){%>
+      <div class="col">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
           <div class="col p-4 d-flex flex-column position-static">
-            <h3><strong class="d-inline-block mb-2"> <%#Movie Title%> </strong></h3>
-            <h4 class="d-inline-block mb-2"><%#Movie-Release Date%></h4>
-            <h5 class="d-inline-block mb-2"><%#Genre%></h5>
-            <h5 class="d-inline-block mb-2"><%#Cast%></h5>
+            <h3><strong class="d-inline-block mb-2"> <%=content[i].title%> </strong></h3>
+            <h4 class="d-inline-block mb-2"><%=content[i].date%></h4>
           </div>
           <div class="col-auto d-none d-lg-block movie-poster">
-            <img src="<%#Movie-poster%>" alt="Movie Poster" class="movie-poster">
+            <img src="<%=content[i].poster%>" alt="Movie Poster" class="movie-poster">
           </div>
         </div>
-    <%}%>
       </div>
+      <%}%>
+      <%}else{%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <%}%>
+      <%}%>
+      <%if(locals.error){%>
+        <div class="container upcom-movies">
+        <h1><%=error%></h1>
+        </div>
+      <%}%>
     <%- include("partials/footer.ejs")%>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

@@ -11,25 +11,33 @@
     <%currentpage='trending'%>
     <%- include("partials/header.ejs")%>
     <h1 class="fs-8 upcom-movie-title"><strong><span class="t1">Trending</span> trailers</strong></h1>
-
+    <%content=JSON.parse(content);%>
+    
+    <%if(locals.content){%>
     <div class="container trend-trailers">
-        <%for(var i=0;i<num;i++){%> <%#number of movies%>
+        <%for(var i=0;i<content.length;i++){%>
         <div class="col">
               <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
               <div class="col p-4 d-flex flex-column position-static trending">
-                <h3><strong class="d-inline-block mb-2"> <%#Movie Title%> </strong></h3>
-                <h4 class="d-inline-block mb-2"><%#Movie-Release Date%></h4>
-                <h5 class=""><%#Trailer Length%></h5>
-                <button type="button" class="trailer-play btn btn-danger d-inline-block mb-2" onclick="window.location.href = '<%#Trailer Link%>';">Watch the Trailer</button>
+                <h3><strong class="d-inline-block mb-2"> <%=content[i].title%> </strong></h3>
+                <h4 class="d-inline-block mb-2"><%=content[i].releaseDate%></h4>
+                <h5 class=""><%=content[i].trailerLength%></h5>
+                <button type="button" class="trailer-play btn btn-danger d-inline-block mb-2" onclick="window.location.href = '<%=content[i].videoLink%>';">Watch the Trailer</button>
               </div>
               
               <div class="col-auto d-none d-lg-block movie-poster">
-                <img src="<%#Movie Poster%>" alt="Movie Poster" class="movie-poster">
+                <img src="<%=content[i].image%>" alt="Movie Poster" class="movie-poster">
               </div>
               </div>
         </div>
         <%}%>
     </div>
+  <%}%>
+  <%if(locals.error){%>
+    <div class="container upcom-movies">
+    <h1><%=error%></h1>
+    </div>
+  <%}%>
     <%- include("partials/footer.ejs")%>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

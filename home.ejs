@@ -18,7 +18,7 @@
             </p>
           </div>
       </div>
-      <form action="<%#Post the preferences to backend%>" method="POST">
+      <form action="/search" method="POST">
       <div class="container search-bar">
       <div class="form-floating mb-4">
         <input type="text" class="form-control" id="floatingInput" placeholder="Movie name">
@@ -28,84 +28,97 @@
       <div class="container d-flex justify-content-evenly">
       <div class="form-floating filters f1">
           <select class="form-select" name="start_year" id="floatingSelect" aria-label="Floating label select example">
-            <option selected>From</option>
+            <option selected></option>
             <%for(var i=1970;i<=2021;i++){%>
               <option value="<%=i%>"> <%=i%> </option>
             <%}%>
           </select>
-          <label for="floatingSelect">Year</label>
+          <label for="floatingSelect">From</label>
       </div>
       <div class="form-floating filters f2">
           <select class="form-select" id="floatingSelect" name="end_year" aria-label="Floating label select example">
-            <option selected>Till</option>
+            <option selected></option>
             <%for(var i=1970;i<=2021;i++){%>
               <option value="<%=i%>"> <%=i%> </option>
             <%}%>
           </select>
-          <label for="floatingSelect">Year</label>
+          <label for="floatingSelect">Till</label>
       </div>
       <div class="form-floating filters f3">
           <%var genre=["Action", "Adult", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family",
             "Fantasy", "Game-Show", "History", "Horror", "Music", "Musical", "Mystery", "News", "Reality-TV", "Romance",
             "Sci-Fi", "Short", "Sport", "Talk-Show", "Thriller", "War", "Western"]%>
           <select class="form-select" id="floatingSelect" name="genre" aria-label="Floating label select example">
-            <option selected>Genre</option>
+            <option selected></option>
             <%for(var i=0;i<=genre.length;i++){%>
               <option value="<%=genre[i]%>"> <%=genre[i]%> </option>
             <%}%>
           </select>
-          <label for="floatingSelect">What genre?</label>
+          <label for="floatingSelect">Genre</label>
       </div>
       <div class="form-floating filters f4">
           <select class="form-select" id="floatingSelect" name="min_imdb" aria-label="Floating label select example">
-            <option selected>Imdb rating</option>
+            <option selected></option>
             <%for(var i=1;i<=10;i++){%>
               <option value="<%=i%>"> <%=i%> </option>
             <%}%>
           </select>
-          <label for="floatingSelect">Min.</label>
+          <label for="floatingSelect">Min. IMDB Rating</label>
       </div>
       <div class="form-floating filters f5">
           <select class="form-select" id="floatingSelect" name="max_imdb" aria-label="Floating label select example">
-            <option selected>Imdb rating</option>
+            <option selected></option>
             <%for(var i=1;i<=10;i++){%>
               <option value="<%=i%>"> <%=i%> </option>
             <%}%>
           </select>
-          <label for="floatingSelect">Max.</label>
+          <label for="floatingSelect">Max. IMDB Rating</label>
       </div>
       <div class="form-floating filters f6">
           <select class="form-select" id="floatingSelect" name="language" aria-label="Floating label select example">
-            <option selected>Language</option>
-            <%["Mandarin", "English", "Hindi", "Spanish", "French", "Arabic", "Bengali", "Russian", "Portuguese", "Urdu"]%>
+            <option selected></option>
+            <%var lang=["Mandarin", "English", "Hindi", "Spanish", "French", "Arabic", "Bengali", "Russian", "Portuguese", "Urdu"]%>
             <%for(var i=1;i<=10;i++){%>
-              <option value="<%=i%>"> <%=i%> </option>
+              <option value="<%=lang[i]%>"> <%=lang[i]%> </option>
             <%}%>
           </select>
-          <label for="floatingSelect">Min.</label>
+          <label for="floatingSelect">Language</label>
       </div>
       </div>
+      <div class="d-flex justify-content-end mt-3"><button type="submit" class="btn btn-danger d-inline-block mb-2">Submit</button></div>
       </form>
       
-      <div class="movie-titles container">
-      <%for(var i=0;i<results.length;i++){%><%#no.of.movies%>
-      <div class="card" style="width: 18rem;">
-        <img src="<%#image url from API%>" class="card-img-top" alt="<%#Movie poster%>">
-        <div class="card-body">
-          <h5 class="card-title"><%#Movie%></h5>
-          <p class="card-text"><%#Movie Plot%></p>
+      <%if(locals.content){%>
+        <div class="container movie-titles">
+        <%for(var i=0;i<content.length;i++){%>
+        <%var movie=content[i];%>
+        <div class="col">
+              <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+              <div class="col p-4 d-flex flex-column position-static">
+                <h3><strong class="d-inline-block mb-2"> <%=movie.title%> </strong></h3>
+                <h5 class="d-inline-block mb-2"><%=movie.released%></h5>
+                <h5 class="d-inline-block mb-2"><%=movie.imdbrating%></h5>
+                <p class="card-text mb-auto"><%=movie.synopsis%></p>
+                <ul class="sublist-genre">
+                    <%var len=(movie.genre).length%>
+                    <%for(var j=0;j<len;j++){%>
+                    <li><%=movie.genre[j]%></li>
+                    <%}%>
+                </ul>
+                </div>
+              <div class="col-auto d-none d-lg-block news-thumbnail">
+                <img src="<%=movie.imageurl[0]%>" alt="Movie Poster" class="news-thumbnail">
+              </div>
+              </div>
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><%#Year of release%></li>
-          <li class="list-group-item"><%#Imdb rating%></li>
-          <li class="list-group-item"><%#Loop if more than one Genre%></li>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link"><%#Ott details (Loop if more than one ott)%></a>
+        <%}%>
+    </div>
+     <%}%>
+     <%if(locals.error){%>
+        <div class="container upcom-movies">
+        <h1><%=error%></h1>
         </div>
-      </div>
       <%}%>
-      </div>
       <%- include("partials/footer.ejs")%>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
