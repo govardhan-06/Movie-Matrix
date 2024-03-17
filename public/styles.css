@@ -67,17 +67,17 @@
     padding-right: 1rem;
 }
 /*Footer*/
-.clear{
-    max-height: 60px;
-}
 footer{
-    position: fixed;
     text-align: center;
     height:50px;
     bottom:0;
     left:0;
     width:100%;
   }
+
+.clear{
+    height: 60px;
+}
 
 .alert{
     margin: 2rem;

@@ -77,46 +77,68 @@ app.post("/upcom-search",async(req,res)=>{
         //reshaping the API response
         for(var i=0;i<data.length;i++){
             for(var j=0;j<data[i].list.length;j++){
-                movies[k]={date:data[i].date}
+                movies[k]={date:data[i].date};
                 movies[k]["title"]=data[i].list[j].title;
                 movies[k]["poster"]=data[i].list[j].image;
                 k=k+1;
             }
         }
-        var filt_date=req.body.month+" "+req.body.day+", "+req.body.year;
-        var day=req.body.day;
+        
         var m=0;
-        // Split the string by comma
-        var parts = day.split(',');
-        // Extract the day part
-        var dayPart = parts[0].split(' ')[1];
+        var filt_date=req.body.month+" "+req.body.day+", "+req.body.year;
+        
+        
         var j=0, checker=0, sorted=[];//checker is to check whether the sorted array is having at least one js object
         for(var i=0;i<movies.length;i++){
+            // Split the string by comma
+            var parts = (movies[i].date).split(',');
+            // Extract the day part
+            var dayPart = parts[0].split(' ')[1];
+            console.log(dayPart);
+            console.log(req.body.day);
+
             var title=movies[i].title.split(" ");
             var name=(title.slice(0,title.length-1)).join(" ");
+
             if(name===req.body.search || movies[i].date===filt_date){
                 sorted[j++]=movies[i];
                 checker++;
+                continue;
             }
-            else if(movies[i].date.split(" ")[0]===req.body.month && dayPart===req.body.day){
+            if(movies[i].date.split(" ")[0]===req.body.month){
+                if(dayPart===req.body.day){
+                sorted[j++]=movies[i];
+                checker++;
+                continue;
+                }
+                else if(movies[i].date.split(" ")[2]===req.body.year){
+                    sorted[j++]=movies[i];
+                    checker++;
+                    continue;
+                }
+            }
+            else if(dayPart===req.body.day){
+                if(movies[i].date.split(" ")[2]===req.body.year){
+                sorted[j++]=movies[i];
+                checker++;
+                continue;
+            }
+            }
+            if(movies[i].date.split(" ")[0]===req.body.month && req.body.day==="" && req.body.year===""){
                 sorted[j++]=movies[i];
                 checker++;
             }
-            else if(dayPart===req.body.day && movies[i].date.split(" ")[2]===req.body.year){
+            else if(req.body.month==="" && dayPart===req.body.day && req.body.year===""){
                 sorted[j++]=movies[i];
                 checker++;
             }
-            else if(movies[i].date.split(" ")[0]===req.body.month && movies[i].date.split(" ")[2]===req.body.year){
+            else if(req.body.month==="" && req.body.day==="" && movies[i].date.split(" ")[2]===req.body.year){
                 sorted[j++]=movies[i];
                 checker++;
             }
-            else if(movies[i].date.split(" ")[0]===req.body.month || dayPart===req.body.day || movies[i].date.split(" ")[2]===req.body.year){
-                sorted[j++]=movies[i];
-                checker++;
-            }
-            else{
-                m=1;
-            }
+        }
+        if(checker===0){
+            m=1;
         }
         res.render(__dirname+"/upcoming-movies.ejs",{content:sorted,message:m});
     }catch(error){
